@@ -1,97 +1,166 @@
 // DOM Elements
-const modalbg = document.querySelector(".bground");
-const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-const closeModal = document.getElementsByClassName("close")[0];
-
-
-// launch modal event
-modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-
-// launch modal form
-function launchModal() {
-  modalbg.style.display = "block";
-}
-
-// close modal form
-closeModal.onclick = function() {
-  modalbg.style.display = "none";
-}
-
-window.onclick = function(event) {
-  if (event.target == modalbg) {
-    modalbg.style.display = "none";
-  }
-} 
-
-// validation modal form
+let modalbg = document.querySelector(".bground");
+let modalBtn = document.querySelectorAll(".modal-btn");
+let closeModal = document.getElementsByClassName("close")[0];
 let firstName = document.getElementById('first');
 let lastName = document.getElementById('last');
 let email = document.getElementById('email');
 let birthdate = document.getElementById('birthdate');
-let numPart = document.getElementById('quantity');
-
-firstName.addEventListener('input', function(){
-  console.log(firstName.value)
-})
-
-lastName.addEventListener('input', function(){
-  console.log(lastName.value)
-})
-
-email.addEventListener('input', function(){
-  console.log(email.value)
-})
-
-birthdate.addEventListener('input', function(){
-  console.log(birthdate.value)
-})
-
-numPart.addEventListener('input', function(){
-  console.log(numPart.value)
-})
+let numPart = document.querySelector("input[type=number]");
+let submitBtn = document.getElementById('btn-submit');
+let locationCheckboxes = document.querySelector("input[name='location']");
+let conditionsCheckboxes = document.querySelector("input[name='conditions']");
 
 
-// functions
-function validate() {
-      
-  if( document.reserve.firstName.value == "" || document.reserve.firstName.length < 3) {
-     alert( "Please provide your first name!" );
-     document.reserve.firstName.focus() ;
-     return false;
-  }
-  if( document.reserve.lastName.value == "" ) {
-     alert( "Please provide your last name!" );
-     document.reserve.lastName.focus() ;
-     return false;
-  }
-  if( document.reserve.email.value == "" ) {
-     alert( "Please provide your Email!" );
-     document.reserve.email.focus() ;
-     return false;
-  }
-  if( document.reserve.birthdate.value == "" ) {
-     alert( "Please provide your birthdate!" );
-     return false;
-  }
-  if( document.reserve.numPart.value == "" ) {
-     alert( "Please provide a number" );
-     return false;
-  }
-  return( true );
+modalFormLaunch();
+modalFormClose();
+disableSubmitBtn();
+// form validation listener
+document.querySelector('form').addEventListener('change', isFormValid);
+// document.querySelector('form').addEventListener('submit', submitForm);
+firstName.addEventListener('input', isFirstNameValid);
+lastName.addEventListener('input', isLastNameValid);
+email.addEventListener('input', isEmailValid); 
+birthdate.addEventListener('input', isBirthdateValid); 
+numPart.addEventListener('input', isNumPartValid);
+locationCheckboxes.addEventListener('change', isLocationValid);
+conditionsCheckboxes.addEventListener('change', isConditionsValid);
+
+// for (let i = 0 ; i < locationCheckboxes.length; i++) {
+//   locationCheckboxes[i].addEventListener('change' , isLocationValid) ; 
+// }
+
+// for (let i = 0 ; i < conditionsCheckboxes.length; i++) {
+//   conditionsCheckboxes[i].addEventListener('change' , isConditionsValid) ; 
+// }
+
+
+// form validation
+function isFirstNameValid () {
+  let parent = firstName.closest('div');
+  showError(parent);
+  if (firstName.value.length < 2) {
+    return false;
+  } 
+
+  if (firstName.value.length > 15) {
+    return false;
+  } 
+
+    hideError(parent);
+    return true;
 }
 
-function validateEmail() {
-  var emailID = document.myForm.EMail.value;
-  atpos = emailID.indexOf("@");
-  dotpos = emailID.lastIndexOf(".");
-  
-  if (atpos < 1 || ( dotpos - atpos < 2 )) {
-     alert("Please enter correct email ID")
-     document.myForm.EMail.focus() ;
-     return false;
+function isLastNameValid () {
+  let parent = lastName.closest('div');
+  showError(parent);
+
+  if (lastName.value.length < 2) {
+    return false
   }
-  return( true );
+
+  hideError(parent);
+  return true;
+}
+
+function isEmailValid () {
+  let parent = email.closest('div');
+  showError(parent);
+  if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(reserve.email.value)) {
+    return false;
+  }
+  hideError(parent);
+  return true;
+
+
+}
+
+function isBirthdateValid () {
+  let parent = birthdate.closest('div');
+  showError(parent);
+  // let regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
+  if (!/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(reserve.birthdate.value)) {
+    return false;
+  }
+  hideError(parent);
+  return true;
+}
+
+function isNumPartValid () {
+  let parent = numPart.closest('div');
+  showError(parent);
+  if (numPart.value < '0') {
+    return false;
+  } 
+    hideError(parent);
+    return true;
+}
+
+// function isLocationValid () {
+//   let parent = locationCheckboxes.closest('div');
+//   showError(parent);
+//   let c = -1;
+//   for (let i=0; i < locationCheckboxes.length; i++) {
+//     if (locationCheckboxes[i].checked) {
+//        c = i;
+//       hideError(parent);
+//       return true; 
+//     }
+//     if (c == -1) {
+//       showError(parent);
+//       return false;
+//     }
+//  }
+// }
+
+
+
+function isLocationValid () {
+  let parent = locationCheckboxes.closest('div');
+  showError(parent);
+    if (!locationCheckboxes.checked) {
+      console.log(123)
+      return false;
+    }
+    hideError(parent);
+    return true;
+}
+    
+
+function isConditionsValid () {
+  let parent = conditionsCheckboxes.closest('div');
+  showError(parent);
+  if (!conditionsCheckboxes.checked) {
+    return false;
+  } 
+    hideError(parent);
+    return true;
+}
+
+function isFormValid() {
+
+  if (isFirstNameValid ()
+      && isLastNameValid ()
+      && isEmailValid ()
+      && isBirthdateValid ()
+      && isNumPartValid ()
+      && isLocationValid ()
+      && isConditionsValid()) 
+      {
+        enableSubmitBtn();
+        return true;
+      }
+      disableSubmitBtn();
+      return false;
+
+}
+
+function showError(el) {
+  el.setAttribute('data-error-visible', true);
+}
+
+function hideError(el) {
+  el.setAttribute('data-error-visible', false)
 }
 
 function editNav() {
@@ -101,4 +170,30 @@ function editNav() {
   } else {
     x.className = "topnav";
   }
+}
+
+function disableSubmitBtn () {
+  submitBtn.disabled = true;
+  submitBtn.style.opacity = '0.5';
+  submitBtn.style.cursor = 'not-allowed';
+}
+
+function enableSubmitBtn () {
+  submitBtn.disabled = false;
+  submitBtn.style.opacity = '1';
+  submitBtn.style.cursor = 'pointer';
+}
+
+function modalFormLaunch () {
+  modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
+}
+
+function modalFormClose () {
+  closeModal.onclick = function() {
+  modalbg.style.display = "none";
+  };
+}
+
+function launchModal() {
+  modalbg.style.display = "block";
 }
