@@ -61,7 +61,7 @@
               name="reserve"
               action="index.html"
               method="get"
-              onsubmit="return submitForm();"
+              onsubmit="submitForm"
             >
               <div
                 class="formData" data-error="Minimum de 2 lettres" >
@@ -206,7 +206,6 @@
                 class="button"
                 value="C'est parti"
                 id="btn-submit"
-                onclick="submitForm(document.reserve)"
               />
             </form>
           </div>
