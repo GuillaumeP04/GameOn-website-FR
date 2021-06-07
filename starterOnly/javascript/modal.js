@@ -1,4 +1,5 @@
 // DOM Elements
+let modalBody = document.querySelector(".modal-body");
 let modalbg = document.querySelector(".bground");
 let modalBtn = document.querySelectorAll(".modal-btn");
 let closeModal = document.getElementsByClassName("close")[0];
@@ -15,9 +16,10 @@ let conditionsCheckboxes = document.querySelector("input[name='conditions']");
 modalFormLaunch();
 modalFormClose();
 disableSubmitBtn();
-// form validation listener
+
+// event listener
 document.querySelector('form').addEventListener('change', isFormValid);
-// document.querySelector('form').addEventListener('submit', submitForm);
+document.querySelector('form').addEventListener('submit', submitForm);
 firstName.addEventListener('input', isFirstNameValid);
 lastName.addEventListener('input', isLastNameValid);
 email.addEventListener('input', isEmailValid); 
@@ -29,7 +31,7 @@ for (checkbox of locationCheckboxes) {
 conditionsCheckboxes.addEventListener('change', isConditionsValid);
 
 
-// form validation
+// functions
 function isFirstNameValid () {
   let parent = firstName.closest('div');
   showError(parent);
@@ -143,9 +145,31 @@ function isFormValid() {
 
 }
 
-// function submitForm(e) {
-//   e.preventDefault();
-// }
+function submitForm(e) {
+  console.log(e);
+  e.preventDefault();
+  document.querySelector('.modal-body').innerHTML = " ";
+  thankyouMessage();
+  closeBtn();
+}
+
+function thankyouMessage() {
+  let para = document.createElement("P");
+  para.innerText = 'Merci ! Votre réservation a été reçue.';              
+  document.querySelector('.modal-body').appendChild(para);
+  para.style.marginTop = "50px"
+}
+
+function closeBtn() {
+  let btn = document.createElement("BUTTON");     
+  btn.innerHTML = "Fermer";                   
+  document.querySelector('.modal-body').appendChild(btn);
+  btn.className = "btn-submit";
+  btn.style.marginTop = "50px"
+  btn.onclick = function() {
+    modalbg.style.display = "none";
+    };
+}
 
 function showError(el) {
   el.setAttribute('data-error-visible', true);
