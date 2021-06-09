@@ -90,14 +90,11 @@ img {
   }
 }
 
-
-
  @media screen and (max-width: 540px) {
   .topnav a {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
-    margin-top: -15px;
   }
 } 
 
@@ -487,7 +484,7 @@ footer {
   .hero-content {
     background: #fff;
     color: #000;
-    padding: 20px;
+    padding: 0px;
   }
   .hero-content::after {
     content: unset;
@@ -515,6 +512,28 @@ footer {
   .copyrights {
     margin-top: 50px;
     text-align: center;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .hero-headline {
+    font-size: 9vw;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .hero-text {
+    width: 70%;
+  }
+  .hero-headline {
+    font-size: 3.5rem;
+    width: 75%;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .hero-text {
+    width: 60%;
   }
 }
 
