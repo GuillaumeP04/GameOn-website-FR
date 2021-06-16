@@ -12,7 +12,6 @@ let submitBtn = document.getElementById('btn-submit');
 let locationCheckboxes = document.querySelectorAll("input[name='location']");
 let conditionsCheckboxes = document.querySelector("input[name='conditions']");
 
-
 modalFormLaunch();
 modalFormClose();
 disableSubmitBtn();
@@ -70,11 +69,17 @@ function hideError(el) {
 
 function isBirthdateValid () {
   let parent = birthdate.closest('div');
+  let selectedDate = new Date(birthdate.value);
+  let now = new Date();
   showError(parent);
-  // let regex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/;
   if (!/^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.test(reserve.birthdate.value)) {
     return false;
   }
+
+  if (selectedDate > now) {
+    return false;
+  }
+
   hideError(parent);
   return true;
 }
@@ -98,7 +103,6 @@ function isEmailValid () {
   hideError(parent);
   return true;
 
-
 }
 
 function isFirstNameValid () {
@@ -110,10 +114,14 @@ function isFirstNameValid () {
 
   if (firstName.value.length > 15) {
     return false;
-  } 
+  }
+  
+  if (!/^([^0-9]*)$/.test(firstName.value)) {
+    return false;
+  }
 
-    hideError(parent);
-    return true;
+  hideError(parent);
+  return true;
 }
 
 function isFormValid() {
@@ -140,6 +148,10 @@ function isLastNameValid () {
 
   if (lastName.value.length < 2) {
     return false
+  }
+
+  if (!/^([^0-9]*)$/.test(lastName.value)) {
+    return false;
   }
 
   hideError(parent);
@@ -189,6 +201,10 @@ function showError(el) {
 function submitForm(e) {
   e.preventDefault();
   document.querySelector('.modal-body').innerHTML = " ";
+  modalBody.style.height = "800px";
+  modalBody.style.display = "flex";
+  modalBody.style.flexDirection = "column";
+  modalBody.style.justifyContent = "flex-end";
   thankyouMessage();
   closeBtn();
 }
@@ -197,7 +213,7 @@ function thankyouMessage() {
   let para = document.createElement("P");
   para.innerText = 'Merci ! Votre réservation a été reçue.';              
   document.querySelector('.modal-body').appendChild(para);
-  para.style.marginTop = "50px"
+  para.style.marginBottom = "270px";
 }
 
 
